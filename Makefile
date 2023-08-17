@@ -3,13 +3,17 @@ CXX=g++
 CXXFLAGS=-Wall -O2 -fPIC `pkg-config --cflags --libs libqalculate`
 INCLUDE=-I.
 
-lib: qalc.so
+lib: quickqalc.so
 
-qalc.so: qalc.o
+quickqalc.so: quickqalc.o
 	$(CXX) $(CXXFLAGS) $^ -shared -o $@
 
-qalc.o: qalc.cpp
+quickqalc.o: quickqalc.cpp
 	$(CXX) $(CXXFLAGS) $^ -c -o $@
 
-test: test.cpp qalc.so
-	$(CXX) $(CXXFLAGS) -o $@ -L/home/sofa/projects/programming/lua/nvim-plugins/quickqalc.nvim $< -lqalc
+test: test.lua quickqalc.so
+	@# $(CXX) $(CXXFLAGS) -o $@ -I. -L. $< -lquickqalc -Wl,-rpath .
+	luajit test.lua
+
+clean:
+	rm -f quickqalc.o quickqalc.so

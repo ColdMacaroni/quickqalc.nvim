@@ -1,2 +1,4 @@
 qalc.o
 qalc.so
+compile_commands.json
+.cache/*
