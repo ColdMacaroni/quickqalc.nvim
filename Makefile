@@ -1,14 +1,15 @@
 CXX=g++
 # pkg-config from https://qalculate.github.io/reference/index.html
 CXXFLAGS=-Wall -O2 -fPIC `pkg-config --cflags --libs libqalculate`
+INCLUDE=-I.
 
 lib: qalc.so
 
 qalc.so: qalc.o
-	$(CXX) $(FLAGS) $^ -shared -o $@
+	$(CXX) $(CXXFLAGS) $^ -shared -o $@
 
 qalc.o: qalc.cpp
-	$(CXX) $(FLAGS) $^ -c -o $@
+	$(CXX) $(CXXFLAGS) $^ -c -o $@
 
-test:
-	echo TODO!
+test: test.cpp qalc.so
+	$(CXX) $(CXXFLAGS) -o $@ -L/home/sofa/projects/programming/lua/nvim-plugins/quickqalc.nvim $< -lqalc
