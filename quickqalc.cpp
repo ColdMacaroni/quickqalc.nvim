@@ -17,7 +17,8 @@ using std::string;
    Globals
 \***********/
 
-// Determines how the given string is evaluated. Configure via setEvaluationOptions
+// Determines how the given string is evaluated. Configure via
+// setEvaluationOptions
 EvaluationOptions evalOpts;
 
 // Used to return strings to lua. Configured via setPrintOptions
@@ -42,7 +43,8 @@ void init() {
  */
 const char *calculate(const char *expr, int timeout) {
   MathStructure result;
-  CALCULATOR->calculate(&result, CALCULATOR->unlocalizeExpression(expr), timeout, evalOpts);
+  CALCULATOR->calculate(&result, CALCULATOR->unlocalizeExpression(expr),
+                        timeout, evalOpts);
 
   string out = CALCULATOR->print(result, timeout, printOpts);
 
