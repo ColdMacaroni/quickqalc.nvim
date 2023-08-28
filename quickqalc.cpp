@@ -5,6 +5,9 @@
 #include <libqalculate/includes.h>
 
 extern "C" {
+// Re-export free because  strings need to be in the heap to be returned to lua,
+// so they must be freed from there.
+void freeStr(const char *ptr) { std::free((void *)ptr); }
 void init();
 const char *calculate(const char *expr, int timeout);
 // TODO: setPrintOptions
