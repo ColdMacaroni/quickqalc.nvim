@@ -6,7 +6,7 @@
 
 extern "C" {
 void init();
-const char *calculate(char *expr, int timeout);
+const char *calculate(const char *expr, int timeout);
 // TODO: setPrintOptions
 // TODO: setEvaluationOptions
 }
@@ -40,7 +40,7 @@ void init() {
 /* Calculates the given expression and returns the result.
  * Will unlocalize expressions.
  */
-const char *calculate(char *expr, int timeout) {
+const char *calculate(const char *expr, int timeout) {
   MathStructure result;
   CALCULATOR->calculate(&result, CALCULATOR->unlocalizeExpression(expr), timeout, evalOpts);
 
