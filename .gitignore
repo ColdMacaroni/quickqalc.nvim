@@ -1,4 +1,4 @@
-qalc.o
-qalc.so
+*.o
+*.so
 compile_commands.json
 .cache/*

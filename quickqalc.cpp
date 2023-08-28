@@ -1,9 +1,51 @@
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <libqalculate/Calculator.h>
+#include <libqalculate/includes.h>
 
 extern "C" {
-void hi();
+void init();
+const char *calculate(char *expr, int timeout);
+// TODO: setPrintOptions
+// TODO: setEvaluationOptions
 }
 
-void hi() { std::cout << "omg hiii\n"; }
+using std::string;
 
+/***********\
+   Globals
+\***********/
+
+// Determines how the given string is evaluated. Configure via setEvaluationOptions
+EvaluationOptions evalOpts;
+
+// Used to return strings to lua. Configured via setPrintOptions
+PrintOptions printOpts;
+
+/* Creates the calculator object and loads config.
+ * Make sure this method is called before anything else!
+ */
+void init() {
+  // TODO: Take in arguments for config. Take from M.setup
+  //       Look at lua.h for interop.
+  new Calculator();
+
+  // CALCULATOR->loadExchangeRates();
+
+  CALCULATOR->loadGlobalDefinitions();
+  CALCULATOR->loadLocalDefinitions();
+}
+
+/* Calculates the given expression and returns the result.
+ * Will unlocalize expressions.
+ */
+const char *calculate(char *expr, int timeout) {
+  MathStructure result;
+  CALCULATOR->calculate(&result, CALCULATOR->unlocalizeExpression(expr), timeout, evalOpts);
+
+  string out = CALCULATOR->print(result, timeout, printOpts);
+
+  // The string should be free()d in lua using ffi.
+  return strdup(out.c_str());
+}
