@@ -17,7 +17,7 @@ M._lib.init()
 -- Converts the given char* to a lua string, then frees it
 ---@param cPtr ffi.cdata*
 ---@return string
-function M._ptrToString(cPtr)
+function M._ptr_to_string(cPtr)
   local str = ffi.string(cPtr)
   M._lib.freeStr(cPtr)
   return str
@@ -27,14 +27,14 @@ end
 ---@param expr string The expression to calculate
 ---@return string result
 function M.calculate(expr)
-  return M._ptrToString(M._lib.calculate(ffi.new("const char *", expr), M.opts.timeout))
+  return M._ptr_to_string(M._lib.calculate(ffi.new("const char *", expr), M.opts.timeout))
 end
 
 -- Helper function for killing the floating window and buffer.
 ---@param win any The nvim window
 ---@param buf any The nvim buffer
 ---@param go_insert boolean Whether to go into insert mode at the end
-function M._endwin(win, buf, go_insert)
+function M._end_win(win, buf, go_insert)
   vim.api.nvim_win_close(win, true)
 
   vim.api.nvim_buf_delete(buf, { force = true })
@@ -90,11 +90,11 @@ function M.popup(go_insert)
   -- Create maps
   vim.keymap.set("i", "<Return>", function()
     local result = M.calculate(vim.api.nvim_get_current_line())
-    M._endwin(win, buf, go_insert)
+    M._end_win(win, buf, go_insert)
     M._into_line(result)
   end, { buffer = true })
   vim.keymap.set("i", "<Esc>", function()
-    M._endwin(win, buf, go_insert)
+    M._end_win(win, buf, go_insert)
   end, { buffer = true })
 
   -- Go into insert for convenience
@@ -102,7 +102,7 @@ function M.popup(go_insert)
 end
 
 -- Creates the nvim commands.
-function M.createCmds()
+function M.create_cmds()
   local cmd = vim.api.nvim_create_user_command
   -- Qalc
   cmd("Qalc", function(attrs)
@@ -141,7 +141,7 @@ function M.setup(opts)
   M.opts = vim.tbl_deep_extend("force", M.opts, opts)
 
   if M.opts.create_commands then
-    M.createCmds()
+    M.create_cmds()
   end
 end
 
