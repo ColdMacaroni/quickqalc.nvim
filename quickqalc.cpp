@@ -46,7 +46,7 @@ void init() {
  */
 const char *calculate(const char *expr, int timeout) {
   MathStructure result;
-  /// docs: https://qalculate.github.io/reference/classCalculator.html#aad255f32d52139e947800037115a30a6
+  // docs: https://qalculate.github.io/reference/classCalculator.html#aad255f32d52139e947800037115a30a6
   CALCULATOR->calculate(&result, CALCULATOR->unlocalizeExpression(expr),
                         timeout, evalOpts);
 
