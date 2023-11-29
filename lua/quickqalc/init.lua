@@ -36,12 +36,7 @@ end
 ---@param go_insert boolean Whether to go into insert mode at the end
 function M._end_win(win, buf, go_insert)
   vim.api.nvim_win_close(win, true)
-
   vim.api.nvim_buf_delete(buf, { force = true })
-  local pos = vim.api.nvim_win_get_cursor(0)
-  vim.api.nvim_win_set_cursor(0, { pos[1], pos[2] + 1 })
-
-  -- vim.cmd.stopinsert()
 
   if go_insert then
     vim.cmd.startinsert()
@@ -55,6 +50,10 @@ function M._into_line(text)
   -- Not sure if this is the best approach
   local line = vim.api.nvim_get_current_line()
   local pos = vim.api.nvim_win_get_cursor(0)
+
+  if pos[2] > 0 then
+    pos[2] = pos[2] - 1
+  end
 
   local newline = line:sub(1, pos[2]) .. text .. line:sub(pos[2] + 1)
   vim.api.nvim_set_current_line(newline)
@@ -93,6 +92,7 @@ function M.popup(go_insert)
     M._end_win(win, buf, go_insert)
     M._into_line(result)
   end, { buffer = true })
+
   vim.keymap.set("i", "<Esc>", function()
     M._end_win(win, buf, go_insert)
   end, { buffer = true })
