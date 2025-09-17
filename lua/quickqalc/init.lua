@@ -24,6 +24,9 @@ function M._ptr_to_string(cPtr)
 end
 
 -- Simple interface for calculation. Will create and free the c string.
+--
+-- WARN: This function +_end_win makes :q freeze nvim for some reason
+-- 
 ---@param expr string The expression to calculate
 ---@return string result
 function M.calculate(expr)
