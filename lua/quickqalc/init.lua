@@ -110,7 +110,7 @@ function M.create_cmds()
     if expr == "" then
       expr = vim.fn.input { prompt = M.opts.prompt }
       -- Clear command line before printing.
-      vim.cmd.redraws { bang = true }
+      vim.cmd.mode()
     end
 
     if expr then
